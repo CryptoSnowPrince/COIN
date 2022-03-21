@@ -27,7 +27,7 @@ const Content = (props) => {
       <div className='mt-4 d-flex flex-column claim-part'>
         <div className='primary-color'>Rewords Not Claimed</div>
         <div className='mt-1'>($0) <img src={COIN2} width="40" className='coin2' style={{ marginTop: "-7px", marginRight: "10px" }} alt='' />BUSD</div>
-        <div><button className='claim-button mt-2'>Claim Manually</button></div>
+        <div><button className='claim-button mt-2' onClick={props.handleClaim}>Claim Manually</button></div>
       </div>
     </div>
   );
