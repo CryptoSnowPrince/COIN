@@ -10,7 +10,8 @@ import Content from '../layout/Content';
 import Footer from '../layout/Footer';
 
 import config from "../contract/config";
-import parcelforceABI from  "../contract/abi/parcelforce.json";
+import parcelforceABI from "../contract/abi/parcelforce.json";
+import DividendDistributorABI from "../contract/abi/DividendDistributor.json";
 
 const providerOptions = {
   walletconnect: {
@@ -37,6 +38,10 @@ const initialState = {
   address: null,
   chainId: null,
 };
+
+export const numberWithCommas = (x) => {
+  return x.toLocaleString(undefined, { maximumFractionDigits: 5 });
+}
 
 function reducer(state, action) {
   switch (action.type) {
@@ -67,8 +72,21 @@ function reducer(state, action) {
 
 const web3 = new Web3(window.ethereum);
 const parcelforceContract = new web3.eth.Contract(parcelforceABI, config.parcelforce[config.chainID]);
+const DividendDistributorContract = new web3.eth.Contract(DividendDistributorABI, config.DividendDistributor[config.chainID]);
 
 const Dashboard = () => {
+  const [tokenBalance, setTokenBalance] = useState("0");
+  const [tokenMarketCap, setTokenMarketCap] = useState("0");
+  const [totalEarnedBusd, setTotalEarnedBusd] = useState("0");
+  const [rewardBusd, setRewardBusd] = useState("0");
+
+  const [fetchtokenBalance, setFetchTokenBalance] = useState("0");
+  const [fetchtokenMarketCap, setFetchTokenMarketCap] = useState("0");
+  const [fetchtotalEarnedBusd, setFetchTotalEarnedBusd] = useState("0");
+  const [fetchrewardBusd, setFetchRewardBusd] = useState("0");
+
+  const [pendingTx, setPendingTx] = useState("false");
+
   const [account, setAccount] = useState("");
   const [showAccountAddress, setShowAccountAddress] = useState("");
 
@@ -76,7 +94,7 @@ const Dashboard = () => {
   const { provider, web3Provider } = state;
 
   const connect = useCallback(async function () {
-    console.log(1234);
+    console.log("connect wallet");
     try {
       const provider = await web3Modal.connect();
       if (window.ethereum) {
@@ -96,7 +114,7 @@ const Dashboard = () => {
       const account = await signer.getAddress();
       const network = await web3Provider.getNetwork();
       const show_address =
-        account.slice(0, 5) + "..." + account.slice(-4, account.length);
+        account.slice(0, 6) + "..." + account.slice(-4, account.length);
       setShowAccountAddress(show_address);
       setAccount(account);
       dispatch({
@@ -136,11 +154,13 @@ const Dashboard = () => {
       type: "RESET_WEB3_PROVIDER",
     });
   }, []);
+
   useEffect(() => {
     if (web3Modal.cachedProvider) {
       connect();
     }
   }, [connect]);
+
   useEffect(() => {
     if (provider) {
       const handleAccountsChanged = (accounts) => {
@@ -167,16 +187,78 @@ const Dashboard = () => {
         }
       };
     }
-  }, [provider, connect]);
+  }, [provider]);
 
-  const handleClaim = () => {
-    console.log(234);
+  const init = async () => {
+    console.log(`init`);
+    try {
+      const balance = await parcelforceContract.methods.balanceOf(account).call();
+      const shares = await DividendDistributorContract.methods.shares(account).call();
+      const rewardBusd = await DividendDistributorContract.methods.getUnpaidEarnings(account).call();
+      setRewardBusd(numberWithCommas(Number(web3.utils.fromWei(rewardBusd, "Ether"))));
+      setTotalEarnedBusd(numberWithCommas(Number(web3.utils.fromWei(shares.totalRealised, "Ether"))));
+      setTokenBalance(numberWithCommas(Number(web3.utils.fromWei(balance, "Gwei"))));
+    } catch (error) {
+      console.log(`${error}`);
+    }
+  };
+
+  useEffect(() => {
+    init();
+  }, []);
+
+  useEffect(() => {
+    init();
+  }, [state]);
+
+  const handleClaimManually = async () => {
+    if (pendingTx == true) {
+      console.log("pending...");
+      return;
+    }
+    console.log("handleClaimManually");
+    setPendingTx(true);
+    try {
+      const tx = await DividendDistributorContract.methods.claimDividend().send({ from: account });
+    } catch (error) {
+      console.log("handleClaimManually error: ", error);
+    }
+    setPendingTx(false);
+    init();
   }
+
+  const fetchData = async (wallet) => {
+    console.log(`fetchData`);
+    try {
+      const balance = await parcelforceContract.methods.balanceOf(wallet).call();
+      const shares = await DividendDistributorContract.methods.shares(wallet).call();
+      const rewardBusd = await DividendDistributorContract.methods.getUnpaidEarnings(wallet).call();
+      setFetchRewardBusd(numberWithCommas(Number(web3.utils.fromWei(rewardBusd, "Ether"))));
+      setFetchTotalEarnedBusd(numberWithCommas(Number(web3.utils.fromWei(shares.totalRealised, "Ether"))));
+      setFetchTokenBalance(numberWithCommas(Number(web3.utils.fromWei(balance, "Gwei"))));
+    } catch (error) {
+      console.log(`${error}`);
+    }
+  };
+
   return (
     <div className='d-flex flex-column justify-content-between'>
       <Header connect={connect} web3Provider={web3Provider} disconnect={disconnect} showAccountAddress={showAccountAddress} />
       <Sidebar />
-      <Content handleClaim={handleClaim} />
+      <Content
+        web3={web3}
+        web3Provider={web3Provider}
+        handleClaimManually={handleClaimManually}
+        tokenBalance={tokenBalance}
+        tokenMarketCap={tokenMarketCap}
+        totalEarnedBusd={totalEarnedBusd}
+        rewardBusd={rewardBusd}
+        fetchtokenBalance={fetchtokenBalance}
+        fetchtokenMarketCap={fetchtokenMarketCap}
+        fetchtotalEarnedBusd={fetchtotalEarnedBusd}
+        fetchrewardBusd={fetchrewardBusd}
+        fetchData={fetchData}
+      />
       <Footer />
     </div>
   );

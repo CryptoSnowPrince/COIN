@@ -7,6 +7,9 @@ const config = {
         56: '0x4978e2C2e1d3d797269c05F343BB7d0cECF935C6',
         97: '',
     },
+    DividendDistributor: {
+        56: '0x6fD6A71a1F1B82c2735eb04Ee19FBCfbe556665D',
+    },
     BlockExplorerURL: {
         56: "https://bscscan.com",
         97: "https://testnet.bscscan.com",
