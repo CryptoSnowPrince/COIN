@@ -156,6 +156,7 @@
   }
   .sidebar-image {
     width: 40px;
+    cursor: pointer;
   }
 }
 @media (max-width: 478px) {
@@ -193,6 +194,7 @@
   }
   .sidebar-image {
     width: 32px;
+    cursor: pointer;
   }
 }
 @media (max-width: 375px) {
@@ -239,6 +241,7 @@
   }
   .sidebar-image {
     width: 30px;
+    cursor: pointer;
   }
 }
 @media (max-width: 275px) {
@@ -285,5 +288,6 @@
   }
   .sidebar-image {
     width: 30px;
+    cursor: pointer;
   }
 }

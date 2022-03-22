@@ -3,7 +3,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const config = {
-    Sample: {
+    parcelforce: {
         56: '0x4978e2C2e1d3d797269c05F343BB7d0cECF935C6',
         97: '',
     },
