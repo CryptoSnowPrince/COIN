@@ -4,11 +4,13 @@ import Web3 from "web3";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { providers } from "ethers";
 
-import config from "../contract/config";
 import Header from '../layout/Header';
 import Sidebar from '../layout/Sidebar';
 import Content from '../layout/Content';
 import Footer from '../layout/Footer';
+
+import config from "../contract/config";
+import parcelforceABI from  "../contract/abi/parcelforce.json";
 
 const providerOptions = {
   walletconnect: {
@@ -63,7 +65,8 @@ function reducer(state, action) {
   }
 }
 
-// const web3 = new Web3(window.ethereum);
+const web3 = new Web3(window.ethereum);
+const parcelforceContract = new web3.eth.Contract(parcelforceABI, config.parcelforce[config.chainID]);
 
 const Dashboard = () => {
   const [account, setAccount] = useState("");
