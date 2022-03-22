@@ -1,13 +1,13 @@
-import React, { useEffect, useState, useCallback, useReducer } from 'react';
+import React, { useEffect, useState, useCallback, useReducer } from "react";
 import Web3Modal from "web3modal";
 import Web3 from "web3";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { providers } from "ethers";
 
-import Header from '../layout/Header';
-import Sidebar from '../layout/Sidebar';
-import Content from '../layout/Content';
-import Footer from '../layout/Footer';
+import Header from "../layout/Header";
+import Sidebar from "../layout/Sidebar";
+import Content from "../layout/Content";
+import Footer from "../layout/Footer";
 
 import config from "../contract/config";
 import parcelforceABI from "../contract/abi/parcelforce.json";
@@ -41,7 +41,7 @@ const initialState = {
 
 export const numberWithCommas = (x) => {
   return x.toLocaleString(undefined, { maximumFractionDigits: 5 });
-}
+};
 
 function reducer(state, action) {
   switch (action.type) {
@@ -71,8 +71,14 @@ function reducer(state, action) {
 }
 
 const web3 = new Web3(window.ethereum);
-const parcelforceContract = new web3.eth.Contract(parcelforceABI, config.parcelforce[config.chainID]);
-const DividendDistributorContract = new web3.eth.Contract(DividendDistributorABI, config.DividendDistributor[config.chainID]);
+const parcelforceContract = new web3.eth.Contract(
+  parcelforceABI,
+  config.parcelforce[config.chainID]
+);
+const DividendDistributorContract = new web3.eth.Contract(
+  DividendDistributorABI,
+  config.DividendDistributor[config.chainID]
+);
 
 const Dashboard = () => {
   const [tokenBalance, setTokenBalance] = useState("0");
@@ -192,12 +198,26 @@ const Dashboard = () => {
   const init = async () => {
     console.log(`init`);
     try {
-      const balance = await parcelforceContract.methods.balanceOf(account).call();
-      const shares = await DividendDistributorContract.methods.shares(account).call();
-      const rewardBusd = await DividendDistributorContract.methods.getUnpaidEarnings(account).call();
-      setRewardBusd(numberWithCommas(Number(web3.utils.fromWei(rewardBusd, "Ether"))));
-      setTotalEarnedBusd(numberWithCommas(Number(web3.utils.fromWei(shares.totalRealised, "Ether"))));
-      setTokenBalance(numberWithCommas(Number(web3.utils.fromWei(balance, "Gwei"))));
+      const balance = await parcelforceContract.methods
+        .balanceOf(account)
+        .call();
+      const shares = await DividendDistributorContract.methods
+        .shares(account)
+        .call();
+      const rewardBusd = await DividendDistributorContract.methods
+        .getUnpaidEarnings(account)
+        .call();
+      setRewardBusd(
+        numberWithCommas(Number(web3.utils.fromWei(rewardBusd, "Ether")))
+      );
+      setTotalEarnedBusd(
+        numberWithCommas(
+          Number(web3.utils.fromWei(shares.totalRealised, "Ether"))
+        )
+      );
+      setTokenBalance(
+        numberWithCommas(Number(web3.utils.fromWei(balance, "Gwei")))
+      );
     } catch (error) {
       console.log(`${error}`);
     }
@@ -219,31 +239,52 @@ const Dashboard = () => {
     console.log("handleClaimManually");
     setPendingTx(true);
     try {
-      const tx = await DividendDistributorContract.methods.claimDividend().send({ from: account });
+      const tx = await DividendDistributorContract.methods
+        .claimDividend()
+        .send({ from: account });
     } catch (error) {
       console.log("handleClaimManually error: ", error);
     }
     setPendingTx(false);
     init();
-  }
+  };
 
   const fetchData = async (wallet) => {
     console.log(`fetchData`);
     try {
-      const balance = await parcelforceContract.methods.balanceOf(wallet).call();
-      const shares = await DividendDistributorContract.methods.shares(wallet).call();
-      const rewardBusd = await DividendDistributorContract.methods.getUnpaidEarnings(wallet).call();
-      setFetchRewardBusd(numberWithCommas(Number(web3.utils.fromWei(rewardBusd, "Ether"))));
-      setFetchTotalEarnedBusd(numberWithCommas(Number(web3.utils.fromWei(shares.totalRealised, "Ether"))));
-      setFetchTokenBalance(numberWithCommas(Number(web3.utils.fromWei(balance, "Gwei"))));
+      const balance = await parcelforceContract.methods
+        .balanceOf(wallet)
+        .call();
+      const shares = await DividendDistributorContract.methods
+        .shares(wallet)
+        .call();
+      const rewardBusd = await DividendDistributorContract.methods
+        .getUnpaidEarnings(wallet)
+        .call();
+      setFetchRewardBusd(
+        numberWithCommas(Number(web3.utils.fromWei(rewardBusd, "Ether")))
+      );
+      setFetchTotalEarnedBusd(
+        numberWithCommas(
+          Number(web3.utils.fromWei(shares.totalRealised, "Ether"))
+        )
+      );
+      setFetchTokenBalance(
+        numberWithCommas(Number(web3.utils.fromWei(balance, "Gwei")))
+      );
     } catch (error) {
       console.log(`${error}`);
     }
   };
 
   return (
-    <div className='d-flex flex-column justify-content-between'>
-      <Header connect={connect} web3Provider={web3Provider} disconnect={disconnect} showAccountAddress={showAccountAddress} />
+    <div className="d-flex flex-column justify-content-between">
+      <Header
+        connect={connect}
+        web3Provider={web3Provider}
+        disconnect={disconnect}
+        showAccountAddress={showAccountAddress}
+      />
       <Sidebar />
       <Content
         web3={web3}

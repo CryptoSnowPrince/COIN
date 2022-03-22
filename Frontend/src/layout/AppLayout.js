@@ -1,12 +1,10 @@
-import React, { Suspense } from 'react';
+import React, { Suspense } from "react";
 
-import AppSpinner from '../pages/loading/AppSpinner';
+import AppSpinner from "../pages/loading/AppSpinner";
 
 const AppLayout = (props) => {
   return (
-    <Suspense fallback={<AppSpinner absolute />}>
-      {props.children}
-    </Suspense>
+    <Suspense fallback={<AppSpinner absolute />}>{props.children}</Suspense>
   );
 };
 
