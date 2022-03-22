@@ -17,31 +17,13 @@ const Content = (props) => {
           className="wallet-address-input"
           value={walletForFetch}
           onChange={(e) => {
+            setWalletForFetch(e.target.value);
             if (props.web3.utils.isAddress(e.target.value) == true) {
               setFetchState(true);
               props.fetchData(e.target.value);
             } else {
               setFetchState(false);
             }
-
-            // if (parseFloat(e.target.value) > props.balanceAEB) {
-            //   alert(
-            //     `Balance overflow! Your balance is ${props.balanceAEB}.`
-            //   );
-            //   setTokenAmount(props.balanceAEB);
-            // } else if (
-            //   parseFloat(e.target.value) >
-            //   config.MAX_STAKE_AMOUNT_PER_USER_DIV_DECIMALS
-            // ) {
-            //   alert(
-            //     `Max balance to stake per holder overflow! Max balance is ${config.MAX_STAKE_AMOUNT_PER_USER_DIV_DECIMALS}.`
-            //   );
-            //   setTokenAmount(
-            //     config.MAX_STAKE_AMOUNT_PER_USER_DIV_DECIMALS
-            //   );
-            // } else {
-            //   setTokenAmount(e.target.value);
-            // }
           }}
         />
       </div>
@@ -55,7 +37,13 @@ const Content = (props) => {
                 : props.web3Provider
                 ? props.tokenBalance
                 : 0}{" "}
-              (${props.web3Provider ? props.tokenMarketCap : 0}){" "}
+              ($
+              {fetchState
+                ? props.fetchtokenMarketCap
+                : props.web3Provider
+                ? props.tokenMarketCap
+                : 0}
+              ){" "}
               <img
                 src={COIN1}
                 className="coin1"
@@ -70,7 +58,13 @@ const Content = (props) => {
           <div className="p-4 border-bottom" style={{ flex: 1 }}>
             <div className="primary-color">Total Earned</div>
             <div>
-              (${props.web3Provider ? props.totalEarnedBusd : 0}){" "}
+              ($
+              {fetchState
+                ? props.fetchtotalEarnedBusd
+                : props.web3Provider
+                ? props.totalEarnedBusd
+                : 0}
+              ){" "}
               <img
                 src={COIN2}
                 className="coin2"
@@ -87,7 +81,13 @@ const Content = (props) => {
       <div className="mt-4 d-flex flex-column claim-part">
         <div className="primary-color">Rewords Not Claimed</div>
         <div className="mt-1">
-          (${props.web3Provider ? props.rewardBusd : 0}){" "}
+          ($
+          {fetchState
+            ? props.fetchrewardBusd
+            : props.web3Provider
+            ? props.rewardBusd
+            : 0}
+          ){" "}
           <img
             src={COIN2}
             width="40"
