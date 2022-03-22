@@ -1,0 +1,311 @@
+#root {
+  background-color: #000;
+}
+.header {
+  height: 100px;
+}
+.footer {
+  height: 70px;
+}
+.content {
+  min-height: calc(100vh - 218px);
+}
+.logo-name {
+  font-size: 4.5rem;
+}
+.connect-button {
+  font-size: 2rem;
+  width: 280px;
+  padding: 0rem 2rem;
+  margin-right: 2rem;
+  border-radius: 30px;
+  background: linear-gradient(38deg, #6f8dfd 30%, #9639fd 70%);
+  color: white;
+  border: 0;
+}
+.compare-part {
+  color: white;
+  font-size: 3rem;
+}
+.wrtext {
+  font-size: 3rem;
+  font-weight: 700;
+}
+.wallet-address-input {
+  padding: 0.5rem 1rem;
+  width: 50%;
+  font-size: 3rem;
+}
+.primary-color {
+  color: #9639fd;
+}
+.border-right {
+  border-right: 5px solid white;
+}
+.border-left {
+  border-left: 5px solid white;
+}
+.border-bottom {
+  border-bottom: 5px solid white !important;
+}
+.claim-part {
+  font-size: 3rem;
+  color: white;
+}
+.claim-button {
+  font-size: 2rem;
+  padding: 0rem 2rem;
+  margin-right: 2rem;
+  border-radius: 30px;
+  background: linear-gradient(38deg, #6f8dfd 30%, #9639fd 70%);
+  color: white;
+  border: 0;
+}
+.sidebar-image {
+  cursor: pointer;
+}
+@media (max-width: 1300px) {
+  .wrtext {
+    font-size: 2.5rem;
+  }
+  .wallet-address-input {
+    font-size: 2rem;
+  }
+  .compare-part {
+    font-size: 2.5rem;
+  }
+  .claim-part {
+    font-size: 2.5rem;
+  }
+}
+@media (max-width: 1050px) {
+  .wrtext {
+    font-size: 2rem;
+  }
+  .wallet-address-input {
+    font-size: 1.5rem;
+  }
+  .compare-part {
+    font-size: 2rem;
+  }
+  .claim-part {
+    font-size: 2rem;
+  }
+  .footer {
+    height: 100px;
+  }
+  .content {
+    min-height: calc(100vh - 248px);
+  }
+}
+@media (max-width: 992px) {
+  .logo-name {
+    font-size: 3rem;
+  }
+  .connect-button,
+  .claim-button {
+    font-size: 1.8rem;
+  }
+  .connect-button {
+    width: 260px;
+  }
+  .wrtext {
+    font-size: 2rem;
+  }
+  .wallet-address-input {
+    font-size: 2rem;
+  }
+  .compare-part {
+    font-size: 2rem;
+  }
+  .claim-part {
+    font-size: 2rem;
+  }
+  .footer {
+    height: 120px;
+  }
+  .content {
+    min-height: calc(100vh - 268px);
+  }
+}
+@media (max-width: 768px) {
+  .logo-name {
+    font-size: 3rem;
+  }
+  .connect-button,
+  .claim-button {
+    font-size: 1.4rem;
+  }
+  .connect-button{
+    width: 215px;
+  }
+  .wrtext {
+    font-size: 1.5rem;
+  }
+  .wallet-address-input {
+    font-size: 1.2rem;
+  }
+  .compare-part {
+    font-size: 1.2rem;
+  }
+  .claim-part {
+    font-size: 1.2rem;
+  }
+  .footer {
+    height: 160px;
+  }
+  .content {
+    min-height: calc(100vh - 308px);
+  }
+  .image-padding {
+    padding: 1rem !important;
+  }
+  .sidebar-top {
+    top: 30% !important;
+  }
+  .sidebar-image {
+    width: 40px;
+    cursor: pointer;
+  }
+}
+@media (max-width: 478px) {
+  .logo-name {
+    font-size: 2rem;
+  }
+  .connect-button,
+  .claim-button {
+    padding: 0.3rem 1rem;
+    font-size: 1.2rem;
+  }
+  .connect-button{
+    width: 161px;
+  }
+  .wrtext {
+    font-size: 1.5rem;
+  }
+  .wallet-address-input {
+    font-size: 1.2rem;
+  }
+  .compare-part {
+    font-size: 1.2rem;
+  }
+  .claim-part {
+    font-size: 1.2rem;
+  }
+  .footer {
+    height: 200px;
+  }
+  .content {
+    min-height: calc(100vh - 348px);
+  }
+  .image-padding {
+    padding: 0.5rem !important;
+  }
+  .sidebar-top {
+    top: 30% !important;
+  }
+  .sidebar-image {
+    width: 32px;
+    cursor: pointer;
+  }
+}
+@media (max-width: 375px) {
+  .logo-name {
+    font-size: 1.5rem;
+  }
+  .logo {
+    width: 50px;
+  }
+  .coin1 {
+    width: 40px;
+  }
+  .coin2 {
+    width: 25px;
+  }
+  .connect-button,
+  .claim-button {
+    padding: 0.3rem 1rem;
+    font-size: 1rem;
+  }
+  .connect-button{
+    width: 140px;
+  }
+  .wrtext {
+    font-size: 1.5rem;
+  }
+  .wallet-address-input {
+    font-size: 1.2rem;
+  }
+  .compare-part {
+    font-size: 1.2rem;
+  }
+  .claim-part {
+    font-size: 1.2rem;
+  }
+  .footer {
+    height: 280px;
+  }
+  .content {
+    min-height: calc(100vh - 428px);
+  }
+  .image-padding {
+    padding: 0.5rem !important;
+  }
+  .sidebar-top {
+    top: 30% !important;
+  }
+  .sidebar-image {
+    width: 30px;
+    cursor: pointer;
+  }
+}
+@media (max-width: 275px) {
+  .logo-name {
+    font-size: 1rem;
+  }
+  .logo {
+    width: 30px;
+  }
+  .coin1 {
+    width: 30px;
+  }
+  .coin2 {
+    width: 20px;
+  }
+  .connect-button,
+  .claim-button {
+    padding: 0.3rem 1rem;
+    font-size: 0.8rem;
+  }
+  .connect-button{
+    width: 118px;
+  }
+  .wrtext {
+    font-size: 1rem;
+  }
+  .wallet-address-input {
+    font-size: 1.2rem;
+  }
+  .compare-part {
+    font-size: 0.8rem;
+  }
+  .claim-part {
+    font-size: 0.8rem;
+  }
+  .footer {
+    height: 360px;
+  }
+  .content {
+    min-height: calc(100vh - 488px);
+  }
+  .image-padding {
+    padding: 0.5rem !important;
+  }
+  .sidebar-top {
+    top: 30% !important;
+  }
+  .sidebar-image {
+    width: 30px;
+    cursor: pointer;
+  }
+}
