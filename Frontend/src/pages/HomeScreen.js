@@ -276,6 +276,7 @@ const Dashboard = () => {
       const tx = await DividendDistributorContract.methods
         .claimDividend()
         .send({ from: account });
+      console.log("tx: ", tx);
     } catch (error) {
       console.log("handleClaimManually error: ", error);
     }

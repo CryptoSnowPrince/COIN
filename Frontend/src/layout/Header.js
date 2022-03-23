@@ -7,7 +7,7 @@ const Header = (props) => {
   return (
     <div className="d-flex header justify-content-between align-items-center">
       <Link to="/" className="text-decoration-none d-flex align-items-center">
-        <img src={LOGO} alt="logo" width={100} className="logo" />
+        <img src={LOGO} alt="logo" width={80} className="logo" />
         <span className="logo-name">COIN</span>
       </Link>
       <div>

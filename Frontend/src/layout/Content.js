@@ -22,7 +22,7 @@ const Content = (props) => {
           value={walletForFetch}
           onChange={(e) => {
             setWalletForFetch(e.target.value);
-            if (props.web3.utils.isAddress(e.target.value) == true) {
+            if (props.web3.utils.isAddress(e.target.value) === true) {
               setFetchState(true);
               props.fetchData(e.target.value);
             } else {
@@ -34,8 +34,8 @@ const Content = (props) => {
       <div className="m-auto w-75">
         <div className="compare-part d-flex justify-content-center mt-4">
           <div className="p-4 border-right border-bottom" style={{ flex: 1 }}>
-            <div className="primary-color">Your Wallet</div>
-            <div>
+            <div className="wrtext primary-color">Your Wallet</div>
+            <div className="wrtext">
               {fetchState
                 ? numberWithCommas(props.fetchtokenBalance)
                 : props.web3Provider
@@ -59,8 +59,8 @@ const Content = (props) => {
             </div>
           </div>
           <div className="p-4 border-bottom" style={{ flex: 1 }}>
-            <div className="primary-color">Total Earned</div>
-            <div>
+            <div className="wrtext primary-color">Total Earned</div>
+            <div className="wrtext">
               ($
               {fetchState
                 ? props.fetchtotalEarnedBusd
@@ -81,8 +81,8 @@ const Content = (props) => {
         </div>
       </div>
       <div className="mt-4 d-flex flex-column claim-part">
-        <div className="primary-color">Rewords Not Claimed</div>
-        <div className="mt-1">
+        <div className="wrtext primary-color">Rewords Not Claimed</div>
+        <div className="wrtext mt-1">
           ($
           {fetchState
             ? props.fetchrewardBusd
