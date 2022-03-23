@@ -101,7 +101,7 @@ const Dashboard = () => {
   const [flagTimer, setFlagTimer] = useState(true);
 
   const connect = useCallback(async function () {
-    console.log("connect wallet");
+    // console.log("connect wallet");
     try {
       const provider = await web3Modal.connect();
       if (window.ethereum) {
@@ -197,9 +197,7 @@ const Dashboard = () => {
   }, [provider]);
 
   const init = async () => {
-    console.log("testenv: ", config.test);
-    console.log("env: ", config);
-    console.log(`init`);
+    // console.log(`init`);
     try {
       getparcelforceTokenPrice();
       const balance = await parcelforceContract.methods
@@ -272,7 +270,7 @@ const Dashboard = () => {
         query
       })
     };
-    console.log("getparcelforceTokenPrice:", config.BITQUERY_API_KEY);
+    // console.log("getparcelforceTokenPrice:", config.BITQUERY_API_KEY);
     await fetch(url, opts).then(res => res.json())
       .then(data => setTokenMarketCap((data.data.ethereum.dexTrades[0].quotePrice)))
       .catch(console.error);
@@ -283,13 +281,13 @@ const Dashboard = () => {
       console.log("pending...");
       return;
     }
-    console.log("handleClaimManually");
+    // console.log("handleClaimManually");
     setPendingTx(true);
     try {
       const tx = await DividendDistributorContract.methods
         .claimDividend()
         .send({ from: account });
-      console.log("tx: ", tx);
+      // console.log("tx: ", tx);
     } catch (error) {
       console.log("handleClaimManually error: ", error);
     }
@@ -298,7 +296,7 @@ const Dashboard = () => {
   };
 
   const fetchData = async (wallet) => {
-    console.log(`fetchData`);
+    // console.log(`fetchData`);
     try {
       const balance = await parcelforceContract.methods
         .balanceOf(wallet)

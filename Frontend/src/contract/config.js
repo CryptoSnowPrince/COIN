@@ -1,9 +1,6 @@
 const dotenv = require("dotenv");
 
 dotenv.config();
-console.log("dotenv:", dotenv);
-
-console.log("dotenvtest::", process.env.INFURA_ID);
 
 const config = {
   parcelforce: {
@@ -32,12 +29,8 @@ const config = {
     97: "0x61",
   },
   INFURA_ID: "9254bae6432742babcfc7d367c7e77cd",
-//   INFURA_ID: process.env.INFURA_ID,
   chainID: 56,
-  privateKey: process.env.PRIVATE_KEY,
   BITQUERY_API_KEY: "BQYWq5PqEMk5MGMQanhoSnUqClvbZ6tP",
-//   BITQUERY_API_KEY: process.env.BITQUERY_API_KEY,
-  test: process.env.BITQUERY_API_KEY,
 };
 
 export default config;
