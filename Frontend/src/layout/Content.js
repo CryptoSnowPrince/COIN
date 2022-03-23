@@ -3,6 +3,10 @@ import React, { useState } from "react";
 import COIN1 from "../assets/coin1.png";
 import COIN2 from "../assets/coin2.png";
 
+const numberWithCommas = (x) => {
+  return x.toLocaleString(undefined, { maximumFractionDigits: 3 });
+};
+
 const Content = (props) => {
   const [walletForFetch, setWalletForFetch] = useState("");
   const [fetchState, setFetchState] = useState(false);
@@ -33,16 +37,16 @@ const Content = (props) => {
             <div className="primary-color">Your Wallet</div>
             <div>
               {fetchState
-                ? props.fetchtokenBalance
+                ? numberWithCommas(props.fetchtokenBalance)
                 : props.web3Provider
-                ? props.tokenBalance
-                : 0}{" "}
+                  ? numberWithCommas(props.tokenBalance)
+                  : 0}{" "}
               ($
               {fetchState
-                ? props.fetchtokenMarketCap
+                ? numberWithCommas(props.fetchtokenBalance * props.tokenMarketCap)
                 : props.web3Provider
-                ? props.tokenMarketCap
-                : 0}
+                  ? numberWithCommas(props.tokenBalance * props.tokenMarketCap)
+                  : 0}
               ){" "}
               <img
                 src={COIN1}
@@ -61,8 +65,8 @@ const Content = (props) => {
               {fetchState
                 ? props.fetchtotalEarnedBusd
                 : props.web3Provider
-                ? props.totalEarnedBusd
-                : 0}
+                  ? props.totalEarnedBusd
+                  : 0}
               ){" "}
               <img
                 src={COIN2}
@@ -83,8 +87,8 @@ const Content = (props) => {
           {fetchState
             ? props.fetchrewardBusd
             : props.web3Provider
-            ? props.rewardBusd
-            : 0}
+              ? props.rewardBusd
+              : 0}
           ){" "}
           <img
             src={COIN2}

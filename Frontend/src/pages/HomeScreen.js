@@ -39,8 +39,8 @@ const initialState = {
   chainId: null,
 };
 
-export const numberWithCommas = (x) => {
-  return x.toLocaleString(undefined, { maximumFractionDigits: 5 });
+const numberWithCommas = (x) => {
+  return x.toLocaleString(undefined, { maximumFractionDigits: 3 });
 };
 
 function reducer(state, action) {
@@ -82,12 +82,11 @@ const DividendDistributorContract = new web3.eth.Contract(
 
 const Dashboard = () => {
   const [tokenBalance, setTokenBalance] = useState("0");
-  const [tokenMarketCap, setTokenMarketCap] = useState("0");
+  const [tokenMarketCap, setTokenMarketCap] = useState(0);
   const [totalEarnedBusd, setTotalEarnedBusd] = useState("0");
   const [rewardBusd, setRewardBusd] = useState("0");
 
   const [fetchtokenBalance, setFetchTokenBalance] = useState("0");
-  const [fetchtokenMarketCap, setFetchTokenMarketCap] = useState("0");
   const [fetchtotalEarnedBusd, setFetchTotalEarnedBusd] = useState("0");
   const [fetchrewardBusd, setFetchRewardBusd] = useState("0");
 
@@ -198,6 +197,7 @@ const Dashboard = () => {
   const init = async () => {
     console.log(`init`);
     try {
+      getparcelforceTokenPrice();
       const balance = await parcelforceContract.methods
         .balanceOf(account)
         .call();
@@ -216,7 +216,7 @@ const Dashboard = () => {
         )
       );
       setTokenBalance(
-        numberWithCommas(Number(web3.utils.fromWei(balance, "Gwei")))
+        Number(web3.utils.fromWei(balance, "Gwei"))
       );
     } catch (error) {
       console.log(`${error}`);
@@ -236,7 +236,7 @@ const Dashboard = () => {
         dexTrades(
           options: { desc: ["block.height", "tradeIndex"], limit: 1 }
           exchangeName: { in: ["Pancake", "Pancake v2"] }
-          baseCurrency: { is: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c" }
+          baseCurrency: { is: "0x55d398326f99059fF775485246999027B3197955" }
           quoteCurrency: { is: "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56" }
           date: { after: "2022-03-22" }
         ) {
@@ -261,13 +261,11 @@ const Dashboard = () => {
     };
     console.log("getparcelforceTokenPrice:", config.BITQUERY_API_KEY);
     await fetch(url, opts).then(res => res.json())
-      .then(data => console.log("data: ", data.data.ethereum.dexTrades[0].quotePrice))
+      .then(data => setTokenMarketCap((data.data.ethereum.dexTrades[0].quotePrice)))
       .catch(console.error);
   };
 
   const handleClaimManually = async () => {
-    getparcelforceTokenPrice();
-    return;
     if (pendingTx === true) {
       console.log("pending...");
       return;
@@ -306,7 +304,7 @@ const Dashboard = () => {
         )
       );
       setFetchTokenBalance(
-        numberWithCommas(Number(web3.utils.fromWei(balance, "Gwei")))
+        Number(web3.utils.fromWei(balance, "Gwei"))
       );
     } catch (error) {
       console.log(`${error}`);
@@ -331,7 +329,6 @@ const Dashboard = () => {
         totalEarnedBusd={totalEarnedBusd}
         rewardBusd={rewardBusd}
         fetchtokenBalance={fetchtokenBalance}
-        fetchtokenMarketCap={fetchtokenMarketCap}
         fetchtotalEarnedBusd={fetchtotalEarnedBusd}
         fetchrewardBusd={fetchrewardBusd}
         fetchData={fetchData}
