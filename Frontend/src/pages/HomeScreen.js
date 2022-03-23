@@ -98,6 +98,8 @@ const Dashboard = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { provider, web3Provider } = state;
 
+  const [flagTimer, setFlagTimer] = useState(true);
+
   const connect = useCallback(async function () {
     console.log("connect wallet");
     try {
@@ -195,6 +197,8 @@ const Dashboard = () => {
   }, [provider]);
 
   const init = async () => {
+    console.log("testenv: ", config.test);
+    console.log("env: ", config);
     console.log(`init`);
     try {
       getparcelforceTokenPrice();
@@ -223,20 +227,29 @@ const Dashboard = () => {
     }
   };
 
+  let timer;
   useEffect(() => {
     init();
+    clearInterval(timer);
+    timer = setInterval(() => {
+      setFlagTimer((prevState) => !prevState);
+    }, 5000);
   }, []);
+
+  useEffect(() => {
+    getparcelforceTokenPrice();
+  }, [flagTimer]);
 
   useEffect(() => {
     init();
   }, [state]);
-
+  
   const getparcelforceTokenPrice = async () => {
     const query = `query{ethereum(network: bsc) {
         dexTrades(
           options: { desc: ["block.height", "tradeIndex"], limit: 1 }
           exchangeName: { in: ["Pancake", "Pancake v2"] }
-          baseCurrency: { is: "0x55d398326f99059fF775485246999027B3197955" }
+          baseCurrency: { is: "` + config.parcelforce[config.chainID] +`" }
           quoteCurrency: { is: "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56" }
           date: { after: "2022-03-22" }
         ) {
