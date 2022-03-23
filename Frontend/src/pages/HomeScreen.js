@@ -198,6 +198,7 @@ const Dashboard = () => {
 
   const init = async () => {
     // console.log(`init`);
+    // console.log("config: ", config);
     try {
       getparcelforceTokenPrice();
       const balance = await parcelforceContract.methods

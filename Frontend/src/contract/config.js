@@ -1,6 +1,4 @@
-const dotenv = require("dotenv");
-
-dotenv.config();
+require("dotenv").config();
 
 const config = {
   parcelforce: {
@@ -28,9 +26,9 @@ const config = {
     56: "0x38",
     97: "0x61",
   },
-  INFURA_ID: "9254bae6432742babcfc7d367c7e77cd",
+  INFURA_ID: process.env.REACT_APP_INFURA_ID,
   chainID: 56,
-  BITQUERY_API_KEY: "BQYWq5PqEMk5MGMQanhoSnUqClvbZ6tP",
+  BITQUERY_API_KEY: process.env.REACT_APP_BITQUERY_API_KEY,
 };
 
 export default config;
