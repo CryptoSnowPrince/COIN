@@ -231,8 +231,44 @@ const Dashboard = () => {
     init();
   }, [state]);
 
+  const getparcelforceTokenPrice = async () => {
+    const query = `query{ethereum(network: bsc) {
+        dexTrades(
+          options: { desc: ["block.height", "tradeIndex"], limit: 1 }
+          exchangeName: { in: ["Pancake", "Pancake v2"] }
+          baseCurrency: { is: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c" }
+          quoteCurrency: { is: "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56" }
+          date: { after: "2022-03-22" }
+        ) {
+          tradeIndex
+          block {
+            height
+          }
+          quotePrice
+        }
+      }
+    }`;
+    const url = "https://graphql.bitquery.io/";
+    const opts = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-KEY": config.BITQUERY_API_KEY
+      },
+      body: JSON.stringify({
+        query
+      })
+    };
+    console.log("getparcelforceTokenPrice:", config.BITQUERY_API_KEY);
+    await fetch(url, opts).then(res => res.json())
+      .then(data => console.log("data: ", data.data.ethereum.dexTrades[0].quotePrice))
+      .catch(console.error);
+  };
+
   const handleClaimManually = async () => {
-    if (pendingTx == true) {
+    getparcelforceTokenPrice();
+    return;
+    if (pendingTx === true) {
       console.log("pending...");
       return;
     }

@@ -1,4 +1,4 @@
-const dotenv = require("dotenv");
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -27,9 +27,12 @@ const config = {
     56: "0x38",
     97: "0x61",
   },
-  INFURA_ID: process.env.INFURA_ID,
+  INFURA_ID: "9254bae6432742babcfc7d367c7e77cd",
+//   INFURA_ID: process.env.INFURA_ID,
   chainID: 56,
   privateKey: process.env.PRIVATE_KEY,
+  BITQUERY_API_KEY: "BQYWq5PqEMk5MGMQanhoSnUqClvbZ6tP",
+//   BITQUERY_API_KEY: process.env.BITQUERY_API_KEY,
 };
 
 export default config;

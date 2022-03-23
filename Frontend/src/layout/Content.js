@@ -53,7 +53,6 @@ const Content = (props) => {
               />
               COIN
             </div>
-            {/* <div>1,000 ($0) <img src={COIN1}  className='coin1' width="60" style={{ marginTop: "-7px" }} alt='' />COIN</div> */}
           </div>
           <div className="p-4 border-bottom" style={{ flex: 1 }}>
             <div className="primary-color">Total Earned</div>
@@ -74,7 +73,6 @@ const Content = (props) => {
               />
               BUSD
             </div>
-            {/* <div>($0) <img src={COIN2}  className='coin2' width="40" style={{ marginTop: "-7px", marginRight: "10px" }} alt='' />BUSD</div> */}
           </div>
         </div>
       </div>
@@ -97,7 +95,6 @@ const Content = (props) => {
           />
           BUSD
         </div>
-        {/* <div className='mt-1'>($0) <img src={COIN2} width="40" className='coin2' style={{ marginTop: "-7px", marginRight: "10px" }} alt='' />BUSD</div> */}
         <div>
           <button
             className="claim-button mt-2"
