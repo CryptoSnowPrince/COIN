@@ -13,21 +13,22 @@ import config from "../contract/config";
 import parcelforceABI from "../contract/abi/parcelforce.json";
 import DividendDistributorABI from "../contract/abi/DividendDistributor.json";
 
-const providerOptions = {
-  walletconnect: {
-    package: WalletConnectProvider, // required
-    options: {
-      infuraId: config.INFURA_ID, // required
-    },
-  },
-};
-
 let web3Modal;
 if (typeof window !== "undefined") {
   web3Modal = new Web3Modal({
     network: "mainnet", // optional
     cacheProvider: true,
-    providerOptions, // required
+    providerOptions: {
+      walletconnect: {
+        package: WalletConnectProvider,
+        options: {
+          infuraId: config.INFURA_ID, // required
+          rpc: {
+            56: config.RpcURL.https[config.chainID],
+          },
+        },
+      },
+    }, // required
     theme: "dark",
   });
 }
@@ -70,16 +71,6 @@ function reducer(state, action) {
   }
 }
 
-const web3 = new Web3(window.ethereum);
-const parcelforceContract = new web3.eth.Contract(
-  parcelforceABI,
-  config.parcelforce[config.chainID]
-);
-const DividendDistributorContract = new web3.eth.Contract(
-  DividendDistributorABI,
-  config.DividendDistributor[config.chainID]
-);
-
 const Dashboard = () => {
   const [tokenBalance, setTokenBalance] = useState("0");
   const [tokenMarketCap, setTokenMarketCap] = useState(0);
@@ -111,7 +102,7 @@ const Dashboard = () => {
           params: [{ chainId: config.chainHexID[config.chainID] }], // chainId must be in hexadecimal numbers
         });
       } else {
-        alert(
+        console.log(
           "MetaMask is not installed. Please consider installing it: https://metamask.io/download.html"
         );
       }
@@ -201,6 +192,15 @@ const Dashboard = () => {
     // console.log("config: ", config);
     try {
       getparcelforceTokenPrice();
+      const web3 = new Web3(provider);
+      const parcelforceContract = new web3.eth.Contract(
+        parcelforceABI,
+        config.parcelforce[config.chainID]
+      );
+      const DividendDistributorContract = new web3.eth.Contract(
+        DividendDistributorABI,
+        config.DividendDistributor[config.chainID]
+      );
       const balance = await parcelforceContract.methods
         .balanceOf(account)
         .call();
@@ -242,13 +242,13 @@ const Dashboard = () => {
   useEffect(() => {
     init();
   }, [state]);
-  
+
   const getparcelforceTokenPrice = async () => {
     const query = `query{ethereum(network: bsc) {
         dexTrades(
           options: { desc: ["block.height", "tradeIndex"], limit: 1 }
           exchangeName: { in: ["Pancake", "Pancake v2"] }
-          baseCurrency: { is: "` + config.parcelforce[config.chainID] +`" }
+          baseCurrency: { is: "` + config.parcelforce[config.chainID] + `" }
           quoteCurrency: { is: "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56" }
           date: { after: "2022-03-22" }
         ) {
@@ -285,10 +285,14 @@ const Dashboard = () => {
     // console.log("handleClaimManually");
     setPendingTx(true);
     try {
-      const tx = await DividendDistributorContract.methods
+      const web3 = new Web3(provider);
+      const DividendDistributorContract = new web3.eth.Contract(
+        DividendDistributorABI,
+        config.DividendDistributor[config.chainID]
+      );
+      await DividendDistributorContract.methods
         .claimDividend()
         .send({ from: account });
-      // console.log("tx: ", tx);
     } catch (error) {
       console.log("handleClaimManually error: ", error);
     }
@@ -299,6 +303,15 @@ const Dashboard = () => {
   const fetchData = async (wallet) => {
     // console.log(`fetchData`);
     try {
+      const web3 = new Web3(provider);
+      const parcelforceContract = new web3.eth.Contract(
+        parcelforceABI,
+        config.parcelforce[config.chainID]
+      );
+      const DividendDistributorContract = new web3.eth.Contract(
+        DividendDistributorABI,
+        config.DividendDistributor[config.chainID]
+      );
       const balance = await parcelforceContract.methods
         .balanceOf(wallet)
         .call();
@@ -334,7 +347,7 @@ const Dashboard = () => {
       />
       <Sidebar />
       <Content
-        web3={web3}
+        web3={new Web3(provider)}
         web3Provider={web3Provider}
         handleClaimManually={handleClaimManually}
         tokenBalance={tokenBalance}
