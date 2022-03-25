@@ -81,7 +81,7 @@ const Dashboard = () => {
   const [fetchtotalEarnedBusd, setFetchTotalEarnedBusd] = useState("0");
   const [fetchrewardBusd, setFetchRewardBusd] = useState("0");
 
-  const [pendingTx, setPendingTx] = useState("false");
+  const [pendingTx, setPendingTx] = useState(false);
 
   const [account, setAccount] = useState("");
   const [showAccountAddress, setShowAccountAddress] = useState("");
@@ -358,6 +358,7 @@ const Dashboard = () => {
         fetchtotalEarnedBusd={fetchtotalEarnedBusd}
         fetchrewardBusd={fetchrewardBusd}
         fetchData={fetchData}
+        pendingTx={pendingTx}
       />
       <Footer />
     </div>

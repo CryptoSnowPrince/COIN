@@ -101,6 +101,7 @@ const Content = (props) => {
         </div>
         <div>
           <button
+            disabled={props.pendingTx}
             className="claim-button mt-2"
             onClick={props.handleClaimManually}
           >
